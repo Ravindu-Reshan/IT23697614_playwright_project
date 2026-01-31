@@ -80,12 +80,12 @@ project-root/
 ## Test Coverage
 Category	Number of Test Cases
 
-✅ Positive Functional Tests	30
+✅ Positive Functional Tests	24
 
-❌ Negative Functional Tests	15
+❌ Negative Functional Tests	10
 🎨 UI Test	1
 
-Total Automated Test Cases	46
+Total Automated Test Cases	35
 
 ## Notes & Highlights
 
