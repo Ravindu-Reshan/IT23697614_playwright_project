@@ -1,9 +1,9 @@
 ## Playwright Test Automation – SwiftTranslator
 ## Student Details
 
-Name: Bamunuarachchi R R
-Registration Number: IT23697614
-Assignment: IT3040 – ITPM Assignment 1
+Name: Bamunuarachchi R R                        
+Registration Number: IT23697614                             
+Assignment: IT3040 – ITPM Assignment 1                    
 
 ## Project Overview 
 
