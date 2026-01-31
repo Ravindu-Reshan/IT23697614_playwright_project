@@ -276,7 +276,7 @@ test('Neg_Fun_0009 – Mixed tense confusion', async ({ page }) => {
 });
 
 test('Neg_Fun_0010 – Missing punctuations sentence', async ({ page }) => {
-  const result = await translateAndCheck(page, 'oyata kohomadha  \\nmama hodhin innavaa');
+  const result = await translateAndCheck(page, 'oyaa potha gaththadha  \\nmama gaththaa');
   await expect(result).not.toBeNull();
 
 });
