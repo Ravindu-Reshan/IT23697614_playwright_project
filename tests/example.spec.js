@@ -1,12 +1,5 @@
 const { test, expect } = require('@playwright/test');
 
-// ============================================================
-// HELPER FUNCTION
-// ============================================================
-
-/**
- * Helper function for Swift Translator (Singlish → Sinhala)
- */
 async function translateAndCheck(page, singlishInput) {
   await page.goto('https://www.swifttranslator.com/', { waitUntil: 'networkidle' });
   await page.waitForTimeout(2000);
@@ -33,9 +26,8 @@ async function translateAndCheck(page, singlishInput) {
   return resultText;
 }
 
-// ============================================================
+
 // POSITIVE FUNCTIONAL TESTS (24 Tests)
-// ============================================================
 
 test('Pos_Fun_0001 – Convert future intention activity sentence', async ({ page }) => {
   const result = await translateAndCheck(page, 'mama sellam karanna yanavaa.');
@@ -132,7 +124,7 @@ test('Pos_Fun_0011 – Instructional sentence conversion with question & expecte
   
   await expect(result.length).toBeGreaterThan(0);
   
-  // Check individual phrases exist in the result
+ 
   await expect(result).toContain('මම හෙට පඩම් කරන්න ගෙදර යනවා');
   await expect(result).toContain('ඔයත් එන්න');
   await expect(result).toContain('බෑ හෙට මට වැඩ');
@@ -222,14 +214,14 @@ test('Pos_Fun_0024 – Convert currency reference', async ({ page }) => {
   await expect(result).toContain('මට Rs.2000ක් ලබුනා');
 });
 
-// ============================================================
+
 // NEGATIVE FUNCTIONAL TESTS (10 Tests)
-// ============================================================
+
 
 test('Neg_Fun_0001 – Fully joined Singlish sentence', async ({ page }) => {
   const result = await translateAndCheck(page, 'mamayanneenaehae.');
   await expect(result).not.toBeNull();
-  // System should handle this gracefully even if output is incorrect
+
 });
 
 test('Neg_Fun_0002 – Joined sentence with numbers', async ({ page }) => {
@@ -241,7 +233,7 @@ test('Neg_Fun_0002 – Joined sentence with numbers', async ({ page }) => {
 test('Neg_Fun_0003 – Excessively long repetitive Singlish', async ({ page }) => {
   const result = await translateAndCheck(page, 'nimalkaeemakanavaakanavaakanavaa.');
   await expect(result).not.toBeNull();
-  // Should handle repetition gracefully
+  
 });
 
 test('Neg_Fun_0004 – Mixed informal symbols inside Singlish', async ({ page }) => {
@@ -250,76 +242,75 @@ test('Neg_Fun_0004 – Mixed informal symbols inside Singlish', async ({ page })
     'mama whatsapp eken call %$@@ ekak gaththaa.'
   );
   await expect(result).not.toBeNull();
-  // Should handle special characters
+
 });
 
 test('Neg_Fun_0005 – Invalid punctuation marks sentence', async ({ page }) => {
   const result = await translateAndCheck(page, 'suba dhavasak. naevatha enna???');
   await expect(result).not.toBeNull();
-  // Should handle excessive punctuation
+  
 });
 
 test('Neg_Fun_0006 – More spaces in sentences', async ({ page }) => {
   const result = await translateAndCheck(page, 'amal   ennee     naehae         kivvaa');
   await expect(result).not.toBeNull();
-  // Should handle multiple spaces
+  
 });
 
 test('Neg_Fun_0007 – Joined long descriptive sentence', async ({ page }) => {
   const result = await translateAndCheck(page, 'adhamamabehethgannayanavaamataAsaniipanisaa.');
   await expect(result).not.toBeNull();
-  // Should handle joined long sentences
+ 
 });
 
 test('Neg_Fun_0008 – Link used as verb/object incorrectly', async ({ page }) => {
   const result = await translateAndCheck(page, 'api https://abc.com eken karanavaa.');
   await expect(result).not.toBeNull();
-  // Should handle URLs
+
 });
 
 test('Neg_Fun_0009 – Mixed tense confusion', async ({ page }) => {
   const result = await translateAndCheck(page, 'mama kadee yanavaa giyaa.');
   await expect(result).not.toBeNull();
-  // Should handle conflicting tenses
+  
 });
 
 test('Neg_Fun_0010 – Missing punctuations sentence', async ({ page }) => {
   const result = await translateAndCheck(page, 'oyata kohomadha  \\nmama hodhin innavaa');
   await expect(result).not.toBeNull();
-  // Should handle missing punctuation
+
 });
 
-// ============================================================
+
 // POSITIVE UI TEST (1 Test)
-// ============================================================
+
 
 test('Pos_UI_0001 – UI validation with valid Singlish input', async ({ page }) => {
-  // 1. Open site
+
   await page.goto('https://www.swifttranslator.com/', { waitUntil: 'networkidle' });
 
-  // 2. Validate input field
+  
   const input = page.getByPlaceholder('Input Your Singlish Text Here.');
   await expect(input).toBeVisible();
   await expect(input).toBeEnabled();
 
-  // 3. Enter valid Singlish text
+  
   await input.fill('api paasal yanavaa.');
   await page.waitForTimeout(4000);
 
-  // 4. Validate Sinhala label
+  
   const sinhalaLabel = page.locator('div', { hasText: /^Sinhala$/ });
   await expect(sinhalaLabel.first()).toBeVisible();
 
-  // 5. Validate output container visibility
+  
   const outputContainer = sinhalaLabel.locator('..').first();
   await expect(outputContainer).toBeVisible();
 
-  // 6. Check if copy button is available and functional
+  
   const copyButton = page.locator('button').filter({ hasText: /copy/i }).or(
     page.locator('[title*="copy" i]')
   );
   
-  // If copy button exists, verify it's visible
   if (await copyButton.count() > 0) {
     await expect(copyButton.first()).toBeVisible();
   }
